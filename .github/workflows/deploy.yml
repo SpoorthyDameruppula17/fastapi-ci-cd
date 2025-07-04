@@ -1,0 +1,33 @@
+name: CI/CD to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy FastAPI App to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            sudo docker stop fastapi-app || true
+            sudo docker rm fastapi-app || true
+            sudo docker rmi fastapi-app || true
+
+            rm -rf fastapi || true
+            git clone https://github.com/YOUR_USERNAME/fastapi.git fastapi
+            cd fastapi
+
+            sudo docker build -t fastapi-app .
+            sudo docker run -d -p 80:80 --name fastapi-app fastapi-app
