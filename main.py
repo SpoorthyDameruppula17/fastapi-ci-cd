@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(
+    title="Spoorthy FastAPI App",
+    description="An example app with Swagger & ReDoc",
+    version="1.0.0"
+)
 
 @app.get("/")
-def read_root():
-    return {"message": "Hello, FastAPI!"}
+def home():
+    return {"message": "Hello from FastAPI!"}
+
+@app.get("/about")
+def about():
+    return {"info": "This is a demo app built by Spoorthy using FastAPI."}

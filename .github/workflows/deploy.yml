@@ -26,7 +26,8 @@ jobs:
             sudo docker rmi fastapi-app || true
 
             rm -rf fastapi || true
-            git clone https://github.com/YOUR_USERNAME/fastapi.git fastapi
+            git clone https://github.com/SpoorthyDameruppula17/fastapi-ci-cd.git fastapi
+
             cd fastapi
 
             sudo docker build -t fastapi-app .
